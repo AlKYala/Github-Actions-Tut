@@ -1,0 +1,17 @@
+name: First Workflow #Benenne deinen Workflow
+on: workflow_dispatch #Benenne die Trigger
+jobs: #Liste die Jobs auf, die dieser Workflow haben soll
+  first-job: #Bezeichner fuer ersten job 
+    runs-on: ubuntu-latest #Runner - siehe Doku zu runner welche es gibt
+    steps: # Definiert die Schritte 
+      - name: Print greeting #Benenne den job 
+        run: echo "Hello World!" #Fuehre Terminal-Befehl aus
+      - name: Print goodbye
+        run: echo "Done - bye!"
+  second-job: #Bezeichner fuer weiteren job
+    runs-on: ubuntu-latest 
+    steps: 
+      - name: first step name 
+        run: echo "Second job start"
+      - name: Print goodbye
+        run: echo "second job finish"

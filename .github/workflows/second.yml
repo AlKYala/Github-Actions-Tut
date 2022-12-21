@@ -1,0 +1,22 @@
+name: First Workflow
+on:
+  workflow_dispatch: null
+  push: #bei push
+    branches:
+      - 'master'
+      - 'feature/**'
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print greeting
+        run: echo "Hello World!"
+      - name: Print goodbye
+        run: echo "Done - bye!"
+  second-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: first step name
+        run: echo "Second job start"
+      - name: Print goodbye
+        run: echo "second job finish"

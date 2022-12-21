@@ -1,4 +1,4 @@
-name: First Workflow
+name: Another Workflow
 on:
   workflow_dispatch: null
   push: #bei push

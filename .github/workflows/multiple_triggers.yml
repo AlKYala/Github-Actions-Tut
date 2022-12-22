@@ -1,10 +1,10 @@
-name: Maven Tests
+name: Multiple Triggers
 on:
+  workflow_dispatch:
   push: #bei push
     branches:
       - 'master'
       - 'feature/**'
-  workflow_dispatch:
 jobs:
   first-job:
     runs-on: ubuntu-latest

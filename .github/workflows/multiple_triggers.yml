@@ -1,11 +1,23 @@
-name: Example
+name: Mehrere Trigger
 on:
   push:
     branches:
       - 'master'
       - 'feature/**'
+    paths: #uebereinstimmung ordner / dateiname
+      - '**.java'
+      - '**.yml'
+      - '**.properties'
+    tags: #Tagname muss uebereinstimmen
+      - '**.**'
+  pull_request:
+    types: [opened, closed, synchronized, reopened, unlocked, edited]
+    branches:
+      - 'master'
+      - 'develop**'
   schedule:
     - cron: '*/5 * * * *'
+  workflow_dispatch:
 jobs:
   first-job:
     runs-on: ubuntu-latest

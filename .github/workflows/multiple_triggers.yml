@@ -3,7 +3,7 @@ on:
   push: #bei push
     branches:
       - 'master'
-      - 'develop**'
+      - 'feature/**'
   workflow_dispatch:
 jobs:
   first-job:

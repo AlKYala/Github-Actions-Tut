@@ -34,5 +34,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
-      - name: Build with Maven
+      - name: Test with Maven
         run: mvn -B test
+      - name: Upload Artifacts - Save Logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: 'logfiles'
+          path: './actions.log'

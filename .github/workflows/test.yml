@@ -12,7 +12,8 @@ jobs: # Ein Workflow hat 1...n Jobs. Ein Repo kann 1 ... n Workflows haben
         run: echo "Hello World!" # mit run fuehren wir shell-befehle aus
       - name: Print goodbye
         run: echo "Done - bye!"
-  second-job: #das hier nennt sich ein job
+  test-job: #das hier nennt sich ein job
+    needs: first-job # sequenziell - erst wird first-job ausgefuehrt
     runs-on: ubuntu-latest #hier hau ich ne umgebung rein, stellt github zur verfuegung
     steps:
       - uses: actions/checkout@v3 # mit uses holen wir uns actions die von woanders ausgefuehrt werden

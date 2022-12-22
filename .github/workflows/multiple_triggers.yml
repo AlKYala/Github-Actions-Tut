@@ -1,10 +1,10 @@
 name: Multiple Triggers
 on:
-  - workflow_dispatch:
-  - push: #bei push
+  [workflow_dispatch: null,
+  push: #bei push
     branches:
       - 'master'
-      - 'feature/**'
+      - 'feature/**']
 jobs:
   first-job:
     runs-on: ubuntu-latest

@@ -1,4 +1,4 @@
-name: Mehrere Trigger
+name: Mehrere Trigger und Artifacts
 on:
   push:
     branches:
@@ -41,3 +41,7 @@ jobs:
         with:
           name: 'logfiles'
           path: './logs/actions.log'
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: 'logfiles' #muss namentlich gleich sein wie der upload

@@ -1,25 +1,25 @@
-name: Maven Tests
-on:
+name: Maven Tests # so nenn ich mein Workflow. Es kann mehrere Workflows per Repo geben. diese befinden sich in .github/actions
+on: # bei diesen Dingen soll dieser Workflow gefuert werden
   push: #bei push
     branches:
       - 'master'
       - 'feature/**'
-jobs:
-  first-job:
-    runs-on: ubuntu-latest
-    steps:
+jobs: # Ein Workflow hat 1...n Jobs. Ein Repo kann 1 ... n Workflows haben
+  first-job: # jeder Job braucht mindestens eine Ungebung und 1...n Steps. Die Steps sind die atomaren Schritte also die leafs sozusagen
+    runs-on: ubuntu-latest # unsere umgebung
+    steps: # wir definieren 1 ... n schritte. Namen sind optional. Wir koennen shell scripte oder actions ausfuehren
       - name: Print greeting
-        run: echo "Hello World!"
+        run: echo "Hello World!" # mit run fuehren wir shell-befehle aus
       - name: Print goodbye
         run: echo "Done - bye!"
-  second-job:
-    runs-on: ubuntu-latest
+  second-job: #das hier nennt sich ein job
+    runs-on: ubuntu-latest #hier hau ich ne umgebung rein, stellt github zur verfuegung
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3 # mit uses holen wir uns actions die von woanders ausgefuehrt werden
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
+        uses: actions/setup-java@v3 # ations fuer java
+        with: # mit with geben wir unseren actions parameter
           java-version: '17'
           distribution: 'adopt'
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots package
+        run: mvn --batch-mode --update-snapshots package # wir haben JDK 17 drin, also koennen wir maven nutzen

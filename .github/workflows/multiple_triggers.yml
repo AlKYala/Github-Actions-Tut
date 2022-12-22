@@ -1,11 +1,11 @@
-name: Multiple Triggers
+name: Example
 on:
-  schedule:
-    - cron: '*/5 * * * *'
-  push: #bei push
+  push:
     branches:
       - 'master'
       - 'feature/**'
+  schedule:
+    - cron: '*/5 * * * *'
 jobs:
   first-job:
     runs-on: ubuntu-latest

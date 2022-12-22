@@ -22,4 +22,4 @@ jobs: # Ein Workflow hat 1...n Jobs. Ein Repo kann 1 ... n Workflows haben
           java-version: '17'
           distribution: 'adopt'
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots package # wir haben JDK 17 drin, also koennen wir maven nutzen
+        run: mvn -B test # wir haben JDK 17 drin, also koennen wir maven nutzen

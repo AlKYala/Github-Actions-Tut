@@ -1,4 +1,4 @@
-name: Mehrere Trigger und Artifacts
+name: Outputs
 on:
   push:
     branches:
@@ -25,7 +25,6 @@ jobs:
       - name: Context-Info
         run: echo "{{toJSON(github)}}"
   test-job:
-    needs: first-job
     runs-on: ubuntu-latest
     outputs:
       my-log-file-output: ${{steps.output_file.outputs.my-log-file}}
@@ -51,3 +50,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: 'logfiles' #muss namentlich gleich sein wie der upload with:name
+  read-output-job:
+    runs-on: ubuntu-latest
+    needs: test-job
+    steps:
+      - name: Auslesen von Output
+        run: echo "${{needs.test.outputs.my-log-file}}"

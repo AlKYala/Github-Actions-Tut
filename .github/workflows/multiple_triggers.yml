@@ -1,7 +1,7 @@
 name: Multiple Triggers
 on:
-  workflow_dispatch:
-  push: #bei push
+  - workflow_dispatch:
+  - push: #bei push
     branches:
       - 'master'
       - 'feature/**'

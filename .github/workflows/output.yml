@@ -55,4 +55,4 @@ jobs:
     needs: test-job
     steps:
       - name: Auslesen von Output
-        run: echo "${{needs.test.outputs.my-log-file}}"
+        run: echo "${{needs.test-job.outputs.my-log-file}}"

@@ -36,7 +36,7 @@ jobs:
       matrix: #n-dimensional - kreuzprodukt fuer jede kombiation
         java-versions: ['17','19']
         osArr: [ubuntu-latest, ubuntu-20.04]
-        include: # kombinationen einschliessen die nicht zum kreuzprodukt dazugehoeren sollen
+        # include: # kombinationen einschliessen die nicht zum kreuzprodukt dazugehoeren sollen
           # - java-versions: '11' # gehoert nicht zum kreuzprodukt
           #  osArr: ubuntu-22.04 #gehoert nicht zum kreuzprodukt
         exclude: # aus dem Kreuzprodukt kombinationen entfernen

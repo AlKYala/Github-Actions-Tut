@@ -31,7 +31,6 @@ jobs:
         if: success()
         run: echo "success, run this stuff"
   test-job:
-    id: test-job
     env:
       de.ayalama.variable.to.override: 'job-level'
     runs-on: ubuntu-latest

@@ -1,4 +1,4 @@
-name: Conditions
+name: Conditions und continue-on-error
 on:
   push:
     branches:

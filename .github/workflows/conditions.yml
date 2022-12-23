@@ -53,7 +53,7 @@ jobs:
           # cache: 'maven' #Alternativ auch so Cachebar - ist aber ein feauture von actionsS/setup-java
       - name: Test with Maven
         id: maven_test
-        run: mvn -B tes
+        run: mvn -B test
       - name: Output file
         id: output_file
         run: find logs/*.log -type f -execdir echo 'my-log-file={}' >> $GITHUB_OUTPUT ';'
@@ -85,7 +85,7 @@ jobs:
     needs:
       - test-job
     name: another-job-condition
-    if: failure()
+    if: cancelled()
     steps:
       - name: echostep
         run: echo "success, run this stuff"

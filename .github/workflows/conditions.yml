@@ -31,6 +31,7 @@ jobs:
         if: success()
         run: echo "success, run this stuff"
   test-job:
+    id: test-job
     env:
       de.ayalama.variable.to.override: 'job-level'
     runs-on: ubuntu-latest
@@ -53,7 +54,7 @@ jobs:
           # cache: 'maven' #Alternativ auch so Cachebar - ist aber ein feauture von actionsS/setup-java
       - name: Test with Maven
         id: maven_test
-        run: mvn -B test
+        run: mvn -B tes
       - name: Output file
         id: output_file
         run: find logs/*.log -type f -execdir echo 'my-log-file={}' >> $GITHUB_OUTPUT ';'
@@ -80,3 +81,8 @@ jobs:
         run: echo "${{secrets.SECRET_TEST}}"
       - name: Secret Varaible aus Environment auslesen
         run: echo "${{secrets.SECRET_IN_ENV}}"
+  job-to-test-conditions:
+    - needs: [test-job]
+      name: another-job-condition
+      if: failure()
+      run: echo "success, run this stuff"

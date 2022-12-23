@@ -32,8 +32,8 @@ jobs:
         run: echo "success, run this stuff"
   test-job:
     strategy:
-      matrix:
-        java-versions: [11,17,19]
+      matrix: #n-dimensional for each combination (cross product) an iteration
+        java-versions: [8,17,19]
         osArr: [ubuntu-latest, windows-latest]
     env:
       de.ayalama.variable.to.override: 'job-level'

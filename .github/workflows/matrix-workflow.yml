@@ -34,8 +34,8 @@ jobs:
     # continue-on-error: true #falls einige kombinationen fehlschlagen
     strategy:
       matrix: #n-dimensional - kreuzprodukt fuer jede kombiation
-        java-versions: [17,19]
-        osArr: [ubuntu-latest, windows-latest]
+        java-versions: ['11','17','19']
+        osArr: [ubuntu-latest, debian-latest]
     env:
       de.ayalama.variable.to.override: 'job-level'
     runs-on: ${{matrix.osArr}}

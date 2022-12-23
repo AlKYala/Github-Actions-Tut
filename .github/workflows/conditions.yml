@@ -37,7 +37,9 @@ jobs:
     outputs:
       my-log-file-output: ${{steps.output_file.outputs.my-log-file}}
     steps:
-      - uses: actions/checkout@v3
+      - name: hol dir Actions
+        continue-on-error: true
+        uses: actions/checkout@v3
       - name: Set up JDK 17
         id: jdk_setup_and_cache
         uses: actions/setup-java@v3
@@ -61,7 +63,7 @@ jobs:
         with:
           name: 'logfiles' #muss namentlich gleich sein wie der upload with:name
       - name: Check if JDK Cache hit
-        if: steps.jdk_setup_and_cache.outputs.cache-hit == 'true'
+        if: steps.jdk_setup_and_cache.outputs.cache-hit == 'true' #cache-hit gives us string
         run: echo "JDK wurde gecached"
   read-output-job:
     runs-on: ubuntu-latest

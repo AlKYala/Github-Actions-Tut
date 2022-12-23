@@ -31,9 +31,10 @@ jobs:
         if: success()
         run: echo "success, run this stuff"
   test-job:
+    # continue-on-error: true #falls einige kombinationen fehlschlagen
     strategy:
-      matrix: #n-dimensional for each combination (cross product) an iteration
-        java-versions: [8,17,19]
+      matrix: #n-dimensional - kreuzprodukt fuer jede kombiation
+        java-versions: [17,19]
         osArr: [ubuntu-latest, windows-latest]
     env:
       de.ayalama.variable.to.override: 'job-level'

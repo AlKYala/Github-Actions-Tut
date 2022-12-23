@@ -61,7 +61,7 @@ jobs:
         with:
           name: 'logfiles' #muss namentlich gleich sein wie der upload with:name
       - name: Check if JDK Cache hit
-        if: steps.jdk_setup_and_cache.outputs.cache-hit == true
+        if: steps.jdk_setup_and_cache.outputs.cache-hit == 'true'
         run: echo "JDK wurde gecached"
   read-output-job:
     runs-on: ubuntu-latest

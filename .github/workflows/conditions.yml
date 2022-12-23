@@ -28,7 +28,7 @@ jobs:
         id: echo-step
         run: echo "{{toJSON(github)}}"
       - name: Conditional Step
-        if: steps.first-job.echo-step.outcome == 'success' || steps.first-job.echo-step.outcome == 'skipped'
+        if: steps.first-job.echo-step.outcome != 'success' || steps.first-job.echo-step.outcome != 'skipped'
         run: echo "$steps.fist-job.echo-step.id" success, run this stuff
   test-job:
     env:

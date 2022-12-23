@@ -82,8 +82,10 @@ jobs:
       - name: Secret Varaible aus Environment auslesen
         run: echo "${{secrets.SECRET_IN_ENV}}"
   job-to-test-conditions:
-    - needs: [test-job]
+    - needs:
+        - test-job
       name: another-job-condition
       if: failure()
       run: echo "success, run this stuff"
+
 

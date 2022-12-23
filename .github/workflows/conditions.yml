@@ -82,10 +82,13 @@ jobs:
       - name: Secret Varaible aus Environment auslesen
         run: echo "${{secrets.SECRET_IN_ENV}}"
   job-to-test-conditions:
-    - needs:
+      runs-on: ubuntu-latest
+      needs:
         - test-job
       name: another-job-condition
       if: failure()
-      run: echo "success, run this stuff"
+      steps:
+      - name: echostep
+        run: echo "success, run this stuff"
 
 

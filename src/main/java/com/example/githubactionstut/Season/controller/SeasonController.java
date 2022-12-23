@@ -1,4 +1,4 @@
-package com.example.githubactionstut.Season;
+package com.example.githubactionstut.Season.controller;
 
 import com.example.githubactionstut.Driver.model.Driver;
 import com.example.githubactionstut.Season.model.Season;

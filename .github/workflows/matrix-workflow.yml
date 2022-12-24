@@ -34,13 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print output of previous job
-        run: echo "${{ needs.call_java_workflow.outputs.log-output.value }}"
-  read-output-job:
-    runs-on: ubuntu-latest
-    needs: call_java_workflow
-    steps:
-      - name: Auslesen von Output
-        run: echo "${{needs.test-job.outputs.my-log-file-output}}"
+        run: echo "${{ needs.call_java_workflow.outputs.log-output }}"
   read-secret-variable:
     environment: foo-env
     runs-on: ubuntu-latest

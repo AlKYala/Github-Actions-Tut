@@ -47,6 +47,14 @@ jobs:
     runs-on: ${{matrix.osArr}}
     outputs:
       my-log-file-output: ${{steps.output_file.outputs.my-log-file}}
+    services: #my tests dont use mongo but in-memory database but I want to include this here anyway - other steps can access this. If I decide to test with this, I can switch the application
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
     steps:
       - name: hol dir Actions
         continue-on-error: true

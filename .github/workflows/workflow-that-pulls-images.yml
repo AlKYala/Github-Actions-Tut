@@ -25,10 +25,8 @@ jobs:
   call_java_workflow:
       uses: ./.github/workflows/reusable_workflow.yml
       with:
-        jdk_version_0: '17'
-        jdk_version_1: '19'
-        ubuntu_version_0: 'ubuntu-latest'
-        ubuntu_version_1: 'ubuntu-20.04'
+        jdk_version: '17'
+        ubuntu_version: 'ubuntu-latest'
   job_to_check_output_of_called_workflow:
     needs: call_java_workflow
     runs-on: ubuntu-latest

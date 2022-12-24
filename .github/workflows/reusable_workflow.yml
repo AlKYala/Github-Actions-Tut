@@ -2,19 +2,11 @@ name: Callable Workflow that uses a custom action
 on:
   workflow_call:
     inputs: #liste deine params auf
-      jdk_version_0: #frei benannter Param
+      jdk_version: #frei benannter Param
         description: Give us the a version for the JDK. Used in Matrix-workflow
         type: string
-      jdk_version_1: #frei benannter param
-        description: Give us another JDK version
-        required: false
-        type: string
-      ubuntu_version_0: #frei benannter param
+      ubuntu_version: #frei benannter param
         description: Give us a ubuntu version distro
-        type: string
-      ubuntu_version_1: #frei benannter param
-        description: Give us another ubuntu version distro
-        required: false
         type: string
     outputs:
       log-output:
@@ -33,5 +25,5 @@ jobs:
   test-job:
     uses: ./.github/actions/test-java-app
     with:
-      jdk_version: '17'
-      ubuntu-version: 'ubuntu-latest'
+      jdk_version: '${{ inputs.jdk_version }'
+      ubuntu-version: '${{ inputs.ubuntu_version }'

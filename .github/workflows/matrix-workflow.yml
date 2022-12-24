@@ -41,7 +41,7 @@ jobs:
   job-to-test-conditions:
     runs-on: ubuntu-latest
     needs:
-      - test-job
+      - call_java_workflow
     name: another-job-condition
     if: cancelled()
     steps:

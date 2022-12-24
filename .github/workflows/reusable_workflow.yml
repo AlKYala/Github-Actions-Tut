@@ -1,4 +1,4 @@
-name: Callable Workflow
+name: Callable Workflow that uses a custom action
 on:
   workflow_call:
     inputs: #liste deine params auf
@@ -31,56 +31,7 @@ jobs:
         if: success()
         run: echo "success, run this stuff"
   test-job:
-    # continue-on-error: true #falls einige kombinationen fehlschlagen
-    strategy:
-      matrix: #n-dimensional - kreuzprodukt fuer jede kombiation
-        java-versions: ['${{ inputs.jdk_version_0 }}' , '${{ inputs.jdk_version_1 }}' ]
-        osArr: ['${{ inputs.ubuntu_version_0 }}' , '${{ inputs.ubuntu_version_1 }}']
-          # include: # kombinationen einschliessen die nicht zum kreuzprodukt dazugehoeren sollen
-          # - java-versions: '11' # gehoert nicht zum kreuzprodukt
-        #  osArr: ubuntu-22.04 #gehoert nicht zum kreuzprodukt
-        exclude: # aus dem Kreuzprodukt kombinationen entfernen
-          - java-versions: ${{inputs.jdk_version_0}} # do not run 17 with ubuntu-20.04
-            osArr: ${{ inputs.ubuntu_version_1 }}
-    env:
-      de.ayalama.variable.to.override: 'job-level'
-    runs-on: ${{matrix.osArr}}
-    outputs:
-      my-log-file-output: ${{steps.output_file.outputs.my-log-file}}
-    services: #my tests dont use mongo but in-memory database but I want to include this here anyway - other steps can access this.
-      mongodb:
-        image: mongo
-        ports:
-          - 27017:27017
-        env:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: example
-    steps:
-      - name: hol dir Actions
-        continue-on-error: true
-        uses: actions/checkout@v3
-      - name: Set up JDK 17
-        id: jdk_setup_and_cache
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{matrix.java-versions}}
-          distribution: 'adopt'
-          cache: 'maven' #Alternativ auch so Cachebar - ist aber ein feauture von actionsS/setup-java
-      - name: Test with Maven
-        id: maven_test
-        run: mvn -B test
-      - name: Output file
-        id: output_file
-        run: find logs/*.log -type f -execdir echo 'my-log-file={}' >> $GITHUB_OUTPUT ';'
-      - name: Upload Artifacts - Save Logs
-        uses: actions/upload-artifact@v3
-        with:
-          name: 'logfiles'
-          path: './logs/actions.log'
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: 'logfiles' #muss namentlich gleich sein wie der upload with:name
-      - name: Check if JDK Cache hit
-        if: steps.jdk_setup_and_cache.outputs.cache-hit == 'true' #cache-hit gives us string
-        run: echo "JDK wurde gecached"
+    uses: ./.github/actions/test-java-app
+    with:
+      jdk_version: '17'
+      ubuntu-version: 'ubuntu-latest'

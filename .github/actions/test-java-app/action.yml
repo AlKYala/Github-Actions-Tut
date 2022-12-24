@@ -1,0 +1,45 @@
+name: Test Java-App-And-Output-log
+description: Testing workflow that uses
+inputs: #liste deine params auf
+  jdk_version: #frei benannter Param
+    description: Give us the a version for the JDK. Used in Matrix-workflow
+  ubuntu_version: #frei benannter param
+    description: Give us a ubuntu version distro
+outputs:
+  log-output:
+    description: Log output as return value
+    value: steps.jdk_setup_and_cache.outputs.my-log-file-output
+runs:
+  using: 'composite'
+  env:
+    de.ayalama.variable.to.override: 'job-level'
+  runs-on: ${{inputs.ubuntu_version}}
+  steps:
+    - name: hol dir Actions
+      continue-on-error: true
+      uses: actions/checkout@v3
+    - name: Set up JDK 17
+      id: jdk_setup_and_cache
+      uses: actions/setup-java@v3
+      with:
+        java-version: ${{inputs.jdk_version}}
+        distribution: 'adopt'
+        cache: 'maven' #Alternativ auch so Cachebar - ist aber ein feauture von actionsS/setup-java
+    - name: Test with Maven
+      id: maven_test
+      run: mvn -B test
+    - name: Output file
+      id: output_file
+      run: find logs/*.log -type f -execdir echo 'my-log-file={}' >> $GITHUB_OUTPUT ';'
+    - name: Upload Artifacts - Save Logs
+      uses: actions/upload-artifact@v3
+      with:
+        name: 'logfiles'
+        path: './logs/actions.log'
+    - name: Download Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: 'logfiles' #muss namentlich gleich sein wie der upload with:name
+    - name: Check if JDK Cache hit
+      if: steps.jdk_setup_and_cache.outputs.cache-hit == 'true' #cache-hit gives us string
+      run: echo "JDK wurde gecached"

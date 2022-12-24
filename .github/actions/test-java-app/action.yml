@@ -23,20 +23,25 @@ runs:
         distribution: 'adopt'
         cache: 'maven' #Alternativ auch so Cachebar - ist aber ein feauture von actionsS/setup-java
     - name: Test with Maven
+      shell: bash
       id: maven_test
       run: mvn -B test
     - name: Output file
+      shell: bash
       id: output_file
       run: find logs/*.log -type f -execdir echo 'my-log-file={}' >> $GITHUB_OUTPUT ';'
     - name: Upload Artifacts - Save Logs
+      shell: bash
       uses: actions/upload-artifact@v3
       with:
         name: 'logfiles'
         path: './logs/actions.log'
     - name: Download Artifacts
+      shell: bash
       uses: actions/download-artifact@v3
       with:
         name: 'logfiles' #muss namentlich gleich sein wie der upload with:name
     - name: Check if JDK Cache hit
+      shell: bash
       if: steps.jdk_setup_and_cache.outputs.cache-hit == 'true' #cache-hit gives us string
       run: echo "JDK wurde gecached"

@@ -16,6 +16,10 @@ on:
         description: Give us another ubuntu version distro
         required: false
         type: string
+    outputs:
+      log-output:
+        description: Log output as return value
+        value: steps.jdk_setup_and_cache.outputs.my-log-file-output
 jobs:
   first-job:
     runs-on: ubuntu-latest
@@ -37,7 +41,7 @@ jobs:
         #  osArr: ubuntu-22.04 #gehoert nicht zum kreuzprodukt
         exclude: # aus dem Kreuzprodukt kombinationen entfernen
           - java-versions: ${{inputs.jdk_version_0}} # do not run 17 with ubuntu-20.04
-            osArr: ubuntu-20.04
+            osArr: ${{ inputs.ubuntu_version_1 }}
     env:
       de.ayalama.variable.to.override: 'job-level'
     runs-on: ${{matrix.osArr}}

@@ -23,6 +23,7 @@ jobs:
         if: success()
         run: echo "success, run this stuff"
   test-job:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3 # damit wir auf dateien im Repo zugreifen koennen
       - uses: ./.github/actions/test-java-app

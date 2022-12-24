@@ -52,10 +52,6 @@ jobs:
     steps:
       - name: echostep
         run: echo "success, run this stuff"
-  mongojob: # this job does not do anything but get mongo
-    runs-on: ubuntu-latest
-    container:
-      image: mongo
 
 
 

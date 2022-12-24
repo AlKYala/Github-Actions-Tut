@@ -23,7 +23,7 @@ env:
 jobs:
   #reference here - java workflows
   call_java_workflow:
-      uses: ./.github/workflows/reusable_workflow.yml
+      uses: ./.github/workflows/alternative_reusable_workflow.yml
       with:
         jdk_version_0: '17'
         jdk_version_1: '19'
@@ -52,10 +52,6 @@ jobs:
     steps:
       - name: echostep
         run: echo "success, run this stuff"
-  mongojob: # this job does not do anything but get mongo
-    runs-on: ubuntu-latest
-    container:
-      image: mongo
 
 
 

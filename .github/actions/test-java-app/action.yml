@@ -11,8 +11,6 @@ outputs:
     value: steps.jdk_setup_and_cache.outputs.my-log-file-output
 runs:
   using: 'composite'
-  env:
-    de.ayalama.variable.to.override: 'job-level'
   steps:
     - name: hol dir Actions
       continue-on-error: true

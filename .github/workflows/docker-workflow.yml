@@ -1,0 +1,17 @@
+name: Docker compose
+on:
+  push:
+    branches:
+      - 'develop**'
+      - 'feature/docker'
+jobs:
+  docker:
+    name: check out and run docker compose
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out repo so I can see the files
+        uses: actions/checkout@v3
+      - name: run docker compose
+        run: |
+          cd docker
+          docker-compose up -d

@@ -13,7 +13,6 @@ runs:
   using: 'composite'
   env:
     de.ayalama.variable.to.override: 'job-level'
-  runs-on: ${{inputs.ubuntu_version}}
   steps:
     - name: hol dir Actions
       continue-on-error: true

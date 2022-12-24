@@ -1,12 +1,13 @@
 name: Docker compose
 on: workflow_dispatch
 jobs:
-  name: check out and run docker compose
-  runs-on: ubuntu-latest
-  steps:
-    - name: check out repo so I can see the files
-      uses: actions/checkout@v3
-    - name: run docker compose
-      run: |
-        cd docker
-        docker-compose-up
+  docker:
+    name: check out and run docker compose
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out repo so I can see the files
+        uses: actions/checkout@v3
+      - name: run docker compose
+        run: |
+          cd docker
+          docker-compose-up

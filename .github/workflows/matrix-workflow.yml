@@ -1,4 +1,4 @@
-name: Conditions und continue-on-error
+name: Workflow that calls another workflow in a job
 on:
   push:
     branches:

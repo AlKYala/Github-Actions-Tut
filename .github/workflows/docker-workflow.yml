@@ -1,5 +1,9 @@
 name: Docker compose
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - 'develop**'
+      - 'feature/docker'
 jobs:
   docker:
     name: check out and run docker compose

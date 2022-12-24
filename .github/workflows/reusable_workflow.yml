@@ -30,8 +30,8 @@ jobs:
     # continue-on-error: true #falls einige kombinationen fehlschlagen
     strategy:
       matrix: #n-dimensional - kreuzprodukt fuer jede kombiation
-        java-versions: [$inputs.jdk_version_0, $inputs.jdk_version_1]
-        osArr: [$inputs.ubuntu_version_0, $inputs.ubuntu_version_1]
+        java-versions: ['${{ inputs.jdk_version_0 }}' , '${{ inputs.jdk_version_1 }}' ]
+        osArr: ['${{ inputs.ubuntu_version_0 }}' , '${{ inputs.ubuntu_version_1 }}']
           # include: # kombinationen einschliessen die nicht zum kreuzprodukt dazugehoeren sollen
           # - java-versions: '11' # gehoert nicht zum kreuzprodukt
         #  osArr: ubuntu-22.04 #gehoert nicht zum kreuzprodukt

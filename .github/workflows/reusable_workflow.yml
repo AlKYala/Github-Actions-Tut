@@ -1,5 +1,25 @@
 name: Callable Workflow
-on: workflow_call
+on:
+  workflow_call:
+    inputs: #liste deine params auf
+      jdk_version_0: #frei benannter Param
+        description: Give us the a version for the JDK. Used in Matrix-workflow
+        type: string
+      jdk_version_1: #frei benannter param
+        description: Give us another JDK version
+        required: false
+        type: string
+      ubuntu_version_0: #frei benannter param
+        description: Give us a ubuntu version distro
+        type: string
+      ubuntu_version_1: #frei benannter param
+        description: Give us another ubuntu version distro
+        required: false
+        type: string
+    outputs:
+      log-output:
+        description: Log output as return value
+        value: steps.jdk_setup_and_cache.outputs.my-log-file-output
 jobs:
   first-job:
     runs-on: ubuntu-latest
@@ -14,14 +34,14 @@ jobs:
     # continue-on-error: true #falls einige kombinationen fehlschlagen
     strategy:
       matrix: #n-dimensional - kreuzprodukt fuer jede kombiation
-        java-versions: ['17','19']
-        osArr: [ubuntu-latest, ubuntu-20.04]
+        java-versions: ['${{ inputs.jdk_version_0 }}' , '${{ inputs.jdk_version_1 }}' ]
+        osArr: ['${{ inputs.ubuntu_version_0 }}' , '${{ inputs.ubuntu_version_1 }}']
           # include: # kombinationen einschliessen die nicht zum kreuzprodukt dazugehoeren sollen
           # - java-versions: '11' # gehoert nicht zum kreuzprodukt
         #  osArr: ubuntu-22.04 #gehoert nicht zum kreuzprodukt
         exclude: # aus dem Kreuzprodukt kombinationen entfernen
-          - java-versions: '17' # do not run 17 with ubuntu-20.04
-            osArr: ubuntu-20.04
+          - java-versions: ${{inputs.jdk_version_0}} # do not run 17 with ubuntu-20.04
+            osArr: ${{ inputs.ubuntu_version_1 }}
     env:
       de.ayalama.variable.to.override: 'job-level'
     runs-on: ${{matrix.osArr}}

@@ -28,5 +28,5 @@ jobs:
       - uses: actions/checkout@v3 # damit wir auf dateien im Repo zugreifen koennen
       - uses: ./.github/actions/test-java-app
         with:
-          jdk_version: '${{ inputs.jdk_version }'
-          ubuntu-version: '${{ inputs.ubuntu_version }'
+          jdk_version: '${{ inputs.jdk_version }}'
+          ubuntu-version: '${{ inputs.ubuntu_version }}'

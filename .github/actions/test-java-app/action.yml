@@ -31,13 +31,11 @@ runs:
       id: output_file
       run: find logs/*.log -type f -execdir echo 'my-log-file={}' >> $GITHUB_OUTPUT ';'
     - name: Upload Artifacts - Save Logs
-      shell: bash
       uses: actions/upload-artifact@v3
       with:
         name: 'logfiles'
         path: './logs/actions.log'
     - name: Download Artifacts
-      shell: bash
       uses: actions/download-artifact@v3
       with:
         name: 'logfiles' #muss namentlich gleich sein wie der upload with:name

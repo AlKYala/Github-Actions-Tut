@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import java.util.Arrays;
 @Slf4j
@@ -35,8 +36,13 @@ public class RunsOnStart implements CommandLineRunner {
     @Autowired
     private SeasonRepository seasonRepository;
 
+    @Autowired
+    private Environment environment;
+
     @Override
     public void run(String... args) throws Exception {
+
+        debugConnectionInfos();
 
         boolean dataExists = checkDataExists();
 
@@ -107,5 +113,15 @@ public class RunsOnStart implements CommandLineRunner {
         boolean exists = any != null;
 
         return exists;
+    }
+
+    private void debugConnectionInfos() {
+        String dbHost = environment.getProperty("spring.data.mongodb.host");
+        String dbPort = environment.getProperty("spring.data.mongodb.port");
+
+        String dbUser = environment.getProperty("spring.data.mongodb.username");
+        String dbPassword = environment.getProperty("spring.data.mongodb.password");
+
+        log.info(String.format("host: %s port: %s user: %s pw: %s", dbHost, dbPort, dbUser, dbPassword));
     }
 }

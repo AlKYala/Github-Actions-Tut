@@ -1,4 +1,4 @@
-name: Workflow that uses a custom action
+name: Workflow that uses a mongo db image
 on:
   push:
     branches:
@@ -25,8 +25,10 @@ jobs:
   call_java_workflow:
       uses: ./.github/workflows/reusable_workflow.yml
       with:
-        jdk_version: '17'
-        ubuntu_version: 'ubuntu-latest'
+        jdk_version_0: '17'
+        jdk_version_1: '19'
+        ubuntu_version_0: 'ubuntu-latest'
+        ubuntu_version_1: 'ubuntu-20.04'
   job_to_check_output_of_called_workflow:
     needs: call_java_workflow
     runs-on: ubuntu-latest
@@ -50,6 +52,10 @@ jobs:
     steps:
       - name: echostep
         run: echo "success, run this stuff"
+  mongojob: # this job does not do anything but get mongo
+    runs-on: ubuntu-latest
+    container:
+      image: mongo
 
 
 

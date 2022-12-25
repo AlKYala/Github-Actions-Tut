@@ -2,23 +2,55 @@ package com.example.githubactionstut.shared.config;
 
 import com.example.githubactionstut.Car.model.Car;
 import com.example.githubactionstut.Car.model.Result.model.Result;
+import com.example.githubactionstut.Car.model.Result.repository.ResultRepository;
+import com.example.githubactionstut.Car.repository.CarRepository;
 import com.example.githubactionstut.Driver.model.Driver;
+import com.example.githubactionstut.Driver.repository.DriverRepository;
 import com.example.githubactionstut.Season.model.Season;
+import com.example.githubactionstut.Season.repository.SeasonRepository;
 import com.example.githubactionstut.Team.model.Team;
+import com.example.githubactionstut.Team.repository.TeamRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
-
+@Slf4j
+@Configuration
 public class RunsOnStart implements CommandLineRunner {
+
+    @Autowired
+    private DriverRepository driverRepository;
+
+    @Autowired
+    private CarRepository carRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
+
+    @Autowired
+    private ResultRepository resultRepository;
+
+    @Autowired
+    private SeasonRepository seasonRepository;
 
     @Override
     public void run(String... args) throws Exception {
+
+        boolean dataExists = checkDataExists();
+
+        if(dataExists)
+            return;
+
+        log.info("Feeding Data");
+
         Driver lewis = new Driver("Lewis", "Hamilton");
         Driver max = new Driver("Max", "Verstappen");
         Driver fernando = new Driver("Fernando", "Alonso");
         Driver charles = new Driver("Charles", "LeClerc");
 
-        //driverRepository.saveAll(Arrays.asList(lewis, max, fernando, charles));
+        driverRepository.saveAll(Arrays.asList(lewis, max, fernando, charles)).blockLast();
 
         Car merc0 = new Car(1025, "Mercedes-AMG F1 W11 EQ Performance");
         Car merc1 = new Car(1050, "Mercedes W12");
@@ -34,14 +66,14 @@ public class RunsOnStart implements CommandLineRunner {
         Car renault0 = new Car(950, "Alpine A521");
         Car renault1 = new Car(950, "Alpine A522");
 
-        //carRepository.saveAll(Arrays.asList(merc0, merc1, merc2, rb0, rb1, ferrari0, ferrari1, ferrari2, renault0, renault1));
+        carRepository.saveAll(Arrays.asList(merc0, merc1, merc2, rb0, rb1, ferrari0, ferrari1, ferrari2, renault0, renault1)).blockLast();
 
         Team alpine = new Team("BWT Alpine F1 Team", Arrays.asList(renault0, renault1));
         Team ferrari = new Team("Scuderia Ferrari", Arrays.asList(ferrari0, ferrari1, ferrari2));
         Team redbull = new Team("Red Bull Racing", Arrays.asList(rb0, rb1));
         Team mercedes = new Team("Mercedes-AMG Petronas F1 Team", Arrays.asList(merc0, merc1, merc2));
 
-        //teamRepository.saveAll(Arrays.asList(alpine, ferrari, redbull, mercedes));
+        teamRepository.saveAll(Arrays.asList(alpine, ferrari, redbull, mercedes)).blockLast();
 
         Result ferrari2020 = new Result(ferrari, charles, 98, 8);
         Result redbull2020 = new Result(redbull, max, 214, 3);
@@ -57,15 +89,23 @@ public class RunsOnStart implements CommandLineRunner {
         Result redbull2022 = new Result(redbull, max, 454, 1);
         Result mercedes2022 = new Result(mercedes, lewis, 240, 6);
 
-        /*resultRepository.saveAll(Arrays.asList(
+        resultRepository.saveAll(Arrays.asList(
                 ferrari2020, redbull2020, mercedes2020,
                 alpine2021, ferrari2021, redbull2021, mercedes2021,
-                alpine2022, ferrari2022, redbull2022, mercedes2022));*/
+                alpine2022, ferrari2022, redbull2022, mercedes2022)).blockLast();
 
         Season season2020 = new Season(2020L, Arrays.asList(ferrari2020, redbull2020, mercedes2020));
         Season season2021 = new Season(2021L, Arrays.asList(alpine2021, ferrari2021, redbull2021, mercedes2021));
         Season season2022 = new Season(2022L, Arrays.asList(alpine2022, ferrari2022, redbull2022, mercedes2022));
 
-        //seasonRepository.saveAll(Arrays.asList(season2020, season2021, season2022));
+        seasonRepository.saveAll(Arrays.asList(season2020, season2021, season2022)).blockLast();
+    }
+
+    private boolean checkDataExists() {
+        Season any = this.seasonRepository.findAll().blockLast();
+
+        boolean exists = any != null;
+
+        return exists;
     }
 }

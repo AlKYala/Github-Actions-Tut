@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>MongoDB-Tutorial</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>MongoDB Tutorial</name>
-    <description>MongoDB Tutorial</description>
+    <artifactId>Github-Actions-Tut</artifactId>
+    <version>1.0</version>
+    <name>Github-Actions-Tut</name>
+    <description>Probiere CI/CD mit Github Actions aus</description>
     <properties>
         <java.version>17</java.version>
     </properties>

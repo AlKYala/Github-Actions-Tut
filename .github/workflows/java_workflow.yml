@@ -22,6 +22,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: ${{inputs.jdk_version}}
+          distribution: 'adopt'
       - name: Test with Maven
         id: maven_test
         run: mvn -B test

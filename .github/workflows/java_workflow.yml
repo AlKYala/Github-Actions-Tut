@@ -29,7 +29,7 @@ jobs:
       - name: Build
         id: maven_build
         run: mvn clean install -P local #local als Profil. Muss noch geaendert werden
-      - name: Cache Build
+      - name: Find target folder
         run: |
           cd target
           ls -a

@@ -18,24 +18,11 @@ on:
   workflow_dispatch:
 jobs:
   #reference here - java workflows
-  call_java_workflow: #Tests and Builds .jar-File - this job and its steps are defined somewhere else
+  call_java_workflow: #Tests my java app, builds it and uses it for docker-compose - this job and its steps are defined somewhere else
       uses: ./.github/workflows/java_workflow.yml
       with:
         jdk_version: '17'
         ubuntu_version: 'ubuntu-latest'
-  docker-compose-job: # this really just has 2 steps so define it here
-    runs-on: ubuntu-latest
-    needs: call_java_workflow #wait
-    steps:
-      # need checkout before using compose-action
-      - uses: actions/checkout@v3
-      - name: Find target folder
-        run: |
-          cd target
-          ls -a
-      - uses: isbang/compose-action@v1.4.1
-        with:
-          compose-file: "./docker-compose.yml"
 
 
 

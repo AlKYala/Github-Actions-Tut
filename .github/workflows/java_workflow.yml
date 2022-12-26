@@ -1,4 +1,4 @@
-name: Java Workflow
+name: Java Workflow and docker compose
 on:
   workflow_call:
     inputs: #liste deine params auf
@@ -13,7 +13,7 @@ on:
         description: Log output as return value
         value: steps.jdk_setup_and_cache.outputs.my-log-file-output
 jobs:
-  test-and-build-jdk:
+  test-and-build-jar-and-docker-compose:
     runs-on: ${{inputs.ubuntu_version}}
     steps:
       - name: Checkout your repo

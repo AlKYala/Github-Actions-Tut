@@ -1,0 +1,31 @@
+name: Java Workflow
+on:
+  workflow_call:
+    inputs: #liste deine params auf
+      jdk_version: #frei benannter Param
+        description: Give us the a version for the JDK. Used in Matrix-workflow
+        type: string
+      ubuntu_version: #frei benannter param
+        description: Give us a ubuntu version distro
+        type: string
+    outputs:
+      log-output:
+        description: Log output as return value
+        value: steps.jdk_setup_and_cache.outputs.my-log-file-output
+jobs:
+  test-and-build-jdk:
+    runs-on: ${{inputs.ubuntu_version}}
+    steps:
+      - name: Checkout your repo
+        uses: actions/checkout@v3
+      - name: Setup Java so you can Test and Build later
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{inputs.jdk_version}}
+      - name: Test with Maven
+        id: maven_test
+        run: mvn -B test
+      - name: Build
+        id: maven_build
+        run: mvn clean install -P local #local als Profil. Muss noch geaendert werden
+

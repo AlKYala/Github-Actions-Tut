@@ -52,6 +52,10 @@ public class RunsOnStart implements CommandLineRunner {
 
         boolean isTestEnv = activeProfile == null || activeProfile.equals("test") || activeProfile.equals("Unknown");
 
+        String dbName = environment.getProperty("spring.data.mongodb.database");
+
+        log.info(dbName);
+
         if(dataExists || isTestEnv)
             return;
 

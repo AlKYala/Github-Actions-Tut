@@ -14,6 +14,8 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.env.Environment;
+import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Flux;
@@ -22,7 +24,9 @@ import reactor.test.StepVerifier;
 import java.util.Arrays;
 import java.util.List;
 
-@SpringBootTest
+@DataMongoTest
+@EnableReactiveMongoRepositories
+@ActiveProfiles("test")
 @AutoConfigureDataMongo
 @Slf4j
 class CarRepositoryTest {

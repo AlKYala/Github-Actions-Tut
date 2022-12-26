@@ -25,7 +25,9 @@ services:
     depends_on:
       - mongo # wait - DB must exist first
     container_name: github-actions-tutorial
-    build: .
+    build:
+      context: .
+      dockerfile: dockerfile
     image: github-actions-tutorial:latest #reference to self
     ports:
       - 8080:8080

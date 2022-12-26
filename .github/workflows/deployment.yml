@@ -19,6 +19,7 @@ on:
 jobs:
   #reference here - java workflows
   call_java_workflow: #Tests and Builds .jar-File
+    runs-on: ubuntu-latest
     steps:
       - name: Test And Build
         uses: ./.github/workflows/java_workflow.yml

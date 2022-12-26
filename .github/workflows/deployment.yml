@@ -19,9 +19,15 @@ on:
 jobs:
   #reference here - java workflows
   call_java_workflow: #Tests and Builds .jar-File
-      uses: ./.github/workflows/java_workflow.yml
-      with:
-        jdk_version: '17'
-        ubuntu_version: 'ubuntu-latest'
+    steps:
+      - name: Test And Build
+        uses: ./.github/workflows/java_workflow.yml
+        with:
+          jdk_version: '17'
+          ubuntu_version: 'ubuntu-latest'
+      - name: Run Docker Compose
+        uses: isbang/compose-action@v1.4.1
+        with:
+          compose-file: "./docker/docker-compose.yml"
 
 

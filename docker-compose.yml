@@ -6,7 +6,7 @@ services:
     image: mongo
     restart: always
     ports:
-      - 27017:27017
+      - 27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -26,6 +26,7 @@ services:
       - mongo # wait - DB must exist first
     container_name: github-actions-tutorial
     build:
+      context: .
       dockerfile: dockerfile
     image: github-actions-tutorial:latest #reference to self
     ports:

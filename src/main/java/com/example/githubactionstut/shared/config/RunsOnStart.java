@@ -12,6 +12,7 @@ import com.example.githubactionstut.Team.model.Team;
 import com.example.githubactionstut.Team.repository.TeamRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -39,6 +40,9 @@ public class RunsOnStart implements CommandLineRunner {
     @Autowired
     private Environment environment;
 
+    @Value("${spring.profiles.active:Unknown}")
+    private String activeProfile;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -46,7 +50,9 @@ public class RunsOnStart implements CommandLineRunner {
 
         boolean dataExists = checkDataExists();
 
-        if(dataExists)
+        boolean isTestEnv = activeProfile == null || activeProfile.equals("test") || activeProfile.equals("Unknown");
+
+        if(dataExists || isTestEnv)
             return;
 
         log.info("Feeding Data");

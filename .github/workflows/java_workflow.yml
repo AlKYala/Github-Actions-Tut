@@ -31,6 +31,6 @@ jobs:
         run: mvn clean install -P local #local als Profil. Muss noch geaendert werden
       - name: Cache Build
         run: |
-          cd /target
+          cd target
           ls-a
 

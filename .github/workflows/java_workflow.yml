@@ -33,7 +33,8 @@ jobs:
         run: |
           cd target
           ls -a
-      - uses: isbang/compose-action@v1.4.1
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
         with:
-          compose-file: "./docker-compose.yml"
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 

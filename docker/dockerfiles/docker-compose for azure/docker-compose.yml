@@ -3,7 +3,7 @@ version: '3.1'
 services:
 
   mongo:
-    image: mongo
+    image: ichprobiereaus.azurecr.io/mongo:latest
     restart: always
     ports:
       - 27017:27017
@@ -12,7 +12,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
 
   mongo-express:
-    image: mongo-express
+    image: ichprobiereaus.azurecr.io/mongo-express:latest
     restart: always
     ports:
       - 8081:8081
@@ -20,17 +20,6 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-
-  github-actions-tutorial:
-    depends_on:
-      - mongo # wait - DB must exist first
-    container_name: github-actions-tutorial
-    build:
-      context: .
-      dockerfile: dockerfile
-    image: github-actions-tutorial:latest #reference to self
-    ports:
-      - 8080:8080
 
 volumes:
   data: {}

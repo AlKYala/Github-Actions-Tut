@@ -1,0 +1,56 @@
+How to setup docker-compose for azure?
+
+1: Set up a Container Repository. You do this in the web app for Azure.
+My Container Repository is called ichprobiereaus
+
+
+
+2: Push the used images (mongo, mongo-express and image of this app) to your repo.
+If a repo does not exist, build it with a dockerfile.
+The reason: Azure needs the images so it can pull.
+
+docker build -t mycontainerrepo.azurecr.io/my-image:latest
+
+docker push mycontainerrepo.azurecr.io/my-image:latest
+
+example:
+
+docker build -t ichprobiereaus.azurecr.io/github-actions-tut:latest
+
+docker push ichprobiereaus.azurecr.io/github-actions-tut:latest
+
+Then: login to your container repo
+
+az acr login --name <acrName>
+
+So here:
+
+az acr login --name ichprobiereaus
+
+then: login to azure for your local docker installation
+
+docker login azure
+
+Create a context
+
+docker context create aci my-context
+
+example:
+
+docker context create aci github-tut
+
+then switch to context
+
+docker context my-context
+
+example:
+
+docker context create aci github-tut
+
+then: Change your docker-compose yml if needed:
+
+Make sure you refer to to the image on your azure instance, so instead of mongo your refer to docker push ichprobiereaus.azurecr.io/mongo:latest
+
+then: Set up the containers in your container instance, where containers will be located
+
+docker-compose up

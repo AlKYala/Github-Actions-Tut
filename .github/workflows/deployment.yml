@@ -32,7 +32,7 @@ jobs:
         run: mvn -B test
       - name: Build
         id: maven_build
-        run: mvn clean install -P staging
+        run: mvn clean install -P stg
       - name: Find target folder
         run: |
           cd target

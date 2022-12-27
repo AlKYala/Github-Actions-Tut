@@ -60,6 +60,6 @@ jobs:
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           name: github-actions-tut
-          location: 'west germany'
+          location: 'germanywestcentral'
 
 

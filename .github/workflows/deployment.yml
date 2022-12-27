@@ -59,7 +59,7 @@ jobs:
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: github-actions-tut
+          name: container-group-0
           location: 'germanywestcentral'
           ports: '27017:27017'
       - name: 'Deploy Mongo-Express'
@@ -71,7 +71,7 @@ jobs:
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: github-actions-tut
+          name: container-group-0
           location: 'germanywestcentral'
           ports: '8081:8081'
       - name: 'Deploy Java App'
@@ -83,7 +83,7 @@ jobs:
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: github-actions-tut
+          name: container-group-0
           location: 'germanywestcentral'
           ports: '8080:8080'
 

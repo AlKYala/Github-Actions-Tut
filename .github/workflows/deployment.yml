@@ -35,7 +35,7 @@ jobs:
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: mongodb
+          name: container-group-0
           location: 'germanywestcentral'
           ports: '27017:27017'
   deploy-mongo-express:
@@ -57,7 +57,7 @@ jobs:
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: mongo-express
+          name: container-group-0
           location: 'germanywestcentral'
           ports: '8081:8081'
 

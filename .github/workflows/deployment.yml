@@ -22,18 +22,6 @@ jobs:
     steps:
       - name: Checkout your repo
         uses: actions/checkout@v3
-      - name: Set env as secret
-        env:
-          MY_VAL: ${{ secrets.AZURE_CREDENTIALS }}
-        run: |
-          import os
-          for q in (os.getenv("MY_VAL")):
-            print(q)
-        shell: python
-      - name: 'Login via Azure CLI'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Setup Java so you can Test and Build later
         uses: actions/setup-java@v3
         with:
@@ -49,6 +37,19 @@ jobs:
         run: |
           cd target
           ls -a
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: 'Build and push image'
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+          docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/github-actions-tut:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/github-actions-tut:${{ github.sha }}
 
 
 

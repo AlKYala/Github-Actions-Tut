@@ -17,7 +17,30 @@ on:
       - 'develop**'
   workflow_dispatch:
 jobs:
-  test-and-build-and-deploy-jar: # deploy db via hand
+  deploy-mongo-db:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repo
+        uses: actions/checkout@v3
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: 'Deploy MongoDB App'
+        uses: 'azure/aci-deploy@v1'
+        with:
+          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mongo #es wird nichts vor ort gebaut - du kannst direkt drauf zugreifen
+          registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          name: mongodb
+          group-name: deploymentgroup
+          location: 'germanywestcentral'
+          ports: '27017:27017'
+  test-and-build-and-deploy-jar:
+    needs: deploy-mongo-db
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repo
@@ -50,29 +73,16 @@ jobs:
       - run: |
           docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/github-actions-tut:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/github-actions-tut:${{ github.sha }}
-      - name: 'Deploy MongoDB App'
-        uses: 'azure/aci-deploy@v1'
-        with:
-          resource-group: ${{ secrets.RESOURCE_GROUP }}
-          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mongo #es wird nichts vor ort gebaut - du kannst direkt drauf zugreifen
-          registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          registry-username: ${{ secrets.REGISTRY_USERNAME }}
-          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: mongodb
-          group-name: deploygroup
-          location: 'germanywestcentral'
-          ports: '27017:27017'
       - name: 'Deploy Java App'
         uses: 'azure/aci-deploy@v1'
         with:
           resource-group: ${{ secrets.RESOURCE_GROUP }}
+          dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
           image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/github-actions-tut:${{ github.sha }} # nimm das eindeutig identifizierbare image
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           name: github-actions-tut
-          group-name: deploygroup
+          group-name: deploymentgroup
           location: 'germanywestcentral'
           ports: '8080:8080'
-
-

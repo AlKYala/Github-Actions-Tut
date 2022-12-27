@@ -59,7 +59,7 @@ jobs:
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: container-group-0
+          name: azure
           location: 'germanywestcentral'
           ports: '8080:8080'
 

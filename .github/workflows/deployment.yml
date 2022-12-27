@@ -17,12 +17,38 @@ on:
       - 'develop**'
   workflow_dispatch:
 jobs:
-  #reference here - java workflows
-  call_java_workflow: #Tests my java app, builds it and uses it for docker-compose - this job and its steps are defined somewhere else
-      uses: ./.github/workflows/java_workflow.yml
-      with:
-        jdk_version: '17'
-        ubuntu_version: 'ubuntu-latest'
+  test-and-build-jar-and-docker-compose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repo
+        uses: actions/checkout@v3
+      - name: Set env as secret
+        env:
+          MY_VAL: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          import os
+          for q in (os.getenv("MY_VAL")):
+            print(q)
+        shell: python
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Setup Java so you can Test and Build later
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+      - name: Test with Maven
+        id: maven_test
+        run: mvn -B test
+      - name: Build
+        id: maven_build
+        run: mvn clean install -P local #local als Profil. Muss noch geaendert werden
+      - name: Find target folder
+        run: |
+          cd target
+          ls -a
 
 
 

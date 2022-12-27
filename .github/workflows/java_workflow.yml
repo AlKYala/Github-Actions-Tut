@@ -18,6 +18,14 @@ jobs:
     steps:
       - name: Checkout your repo
         uses: actions/checkout@v3
+      - name: Set env as secret
+        env:
+          MY_VAL: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          import os
+          for q in (os.getenv("MY_VAL")):
+            print q
+        shell: python
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:

@@ -102,9 +102,9 @@
         </profile>
 
         <profile>
-            <id>stg</id>
+            <id>staging</id>
             <properties>
-                <activatedProperties>stg</activatedProperties>
+                <activatedProperties>staging</activatedProperties>
             </properties>
         </profile>
 

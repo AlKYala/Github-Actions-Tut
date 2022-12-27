@@ -50,6 +50,19 @@ jobs:
       - run: |
           docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/github-actions-tut:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/github-actions-tut:${{ github.sha }}
+      - name: 'Deploy MongoDB App'
+        uses: 'azure/aci-deploy@v1'
+        with:
+          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mongo #es wird nichts vor ort gebaut - du kannst direkt drauf zugreifen
+          registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          name: mongodb
+          group-name: deploygroup
+          location: 'germanywestcentral'
+          ports: '27017:27017'
       - name: 'Deploy Java App'
         uses: 'azure/aci-deploy@v1'
         with:
@@ -59,7 +72,8 @@ jobs:
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: container-group-0
+          name: github-actions-tut
+          group-name: deploygroup
           location: 'germanywestcentral'
           ports: '8080:8080'
 

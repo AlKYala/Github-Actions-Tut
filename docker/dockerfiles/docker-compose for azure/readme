@@ -1,0 +1,88 @@
+How to setup docker-compose for azure?
+
+1: Set up a Container Registry. You do this in the web app for Azure.
+My Container Repository is called ichprobiereaus
+
+2. If Needed: build your Apps:
+
+docker build -t mycontainerrepo.azurecr.io/my-image:latest
+
+docker push mycontainerrepo.azurecr.io/my-image:latest
+
+example:
+
+docker build -t ichprobiereaus.azurecr.io/github-actions-tut:latest
+
+docker push ichprobiereaus.azurecr.io/github-actions-tut:latest
+
+3. Login to your container registry:
+
+docker login myregistry.azurecr.io
+
+example:
+
+docker login ichprobiereaus.azurecr.io
+
+4: Push the used images (mongo, mongo-express and image of this app) to your repo.
+If a repo does not exist, build it with a dockerfile.
+The reason: Azure needs the images so it can pull:
+
+https://learn.microsoft.com/en-us/azure/container-registry/container-registry-get-started-docker-cli?tabs=azure-cli
+
+docker tag image:latest myregistry.azurecr.io/image:latest
+
+for example:
+
+docker tag mongo:latest ichprobiereaus.azurecr.io/mongo:latest
+
+docker tag mongo-express:latest ichprobiereaus.azurecr.io/mongo-express:latest
+
+docker tag github-actions-tut:latest ichprobiereaus.azurecr.io/github-actions-tut:latest
+
+Then push:
+
+docker push myregistry.azurecr.io/image:latest
+
+example:
+
+docker push ichprobiereaus.azurecr.io/mongo:latest
+docker push ichprobiereaus.azurecr.io/mongo-express:latest
+docker push ichprobiereaus.azurecr.io/github-actions-tut:latest
+
+Now these images available in your container registry
+
+5: login to your container repo
+
+az acr login --name <acrName>
+
+So here:
+
+az acr login --name ichprobiereaus
+
+6: login to azure for your local docker installation
+
+docker login azure
+
+7: Create a context
+
+docker context create aci my-context
+
+example:
+
+docker context create aci github-tut
+
+8: switch to context
+
+docker context my-context
+
+example:
+
+docker context create aci github-tut
+
+9: Change your docker-compose yml if needed:
+
+Make sure you refer to to the image on your azure instance, so instead of mongo your refer to docker push ichprobiereaus.azurecr.io/mongo:latest
+
+10: Set up the containers in your container instance, where containers will be located
+
+docker-compose up

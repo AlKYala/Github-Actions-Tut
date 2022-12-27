@@ -26,6 +26,9 @@ public class DummyController {
         environmentDebug.put("dbUsername", environment.getProperty("spring.data.mongodb.username"));
         environmentDebug.put("dbPassword", environment.getProperty("spring.data.mongodb.password"));
         environmentDebug.put("databaseName", environment.getProperty("spring.data.mongodb.database"));
+        environmentDebug.put("databaseHost", environment.getProperty("spring.data.mongodb.host"));
+        environmentDebug.put("databasePort", environment.getProperty("spring.data.mongodb.port"));
+        environmentDebug.put("debugField2", "debug2");
 
         return ResponseEntity.ok().body(environmentDebug);
     }

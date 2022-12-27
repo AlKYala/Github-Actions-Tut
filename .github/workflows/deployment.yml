@@ -32,7 +32,7 @@ jobs:
         run: mvn -B test
       - name: Build
         id: maven_build
-        run: mvn clean install -Dspring.profiles.active=stg
+        run: mvn clean install -D stg
       - name: Find target folder
         run: |
           cd target

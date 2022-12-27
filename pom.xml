@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>Github-Actions-Tut</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <name>Github-Actions-Tut</name>
     <description>Probiere CI/CD mit Github Actions aus</description>
     <properties>

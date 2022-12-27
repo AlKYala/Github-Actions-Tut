@@ -17,47 +17,50 @@ on:
       - 'develop**'
   workflow_dispatch:
 jobs:
-  deploy-mongo-db:
+  test-and-build-and-deploy-jar: # deploy db via hand
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repo
         uses: actions/checkout@v3
+      - name: Setup Java so you can Test and Build later
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+      - name: Test with Maven
+        id: maven_test
+        run: mvn -B test
+      - name: Build
+        id: maven_build
+        run: mvn clean install -P local #local als Profil. Muss noch geaendert werden
+      - name: Find target folder
+        run: |
+          cd target
+          ls -a
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: 'Deploy MongoDB App'
+      - name: 'Build and push image' #es wird im runbefehl der sha-hash mitgegeben. Damit können wir das image eindeutig identifizieren
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+          docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/github-actions-tut:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/github-actions-tut:${{ github.sha }}
+      - name: 'Deploy Java App'
         uses: 'azure/aci-deploy@v1'
         with:
           resource-group: ${{ secrets.RESOURCE_GROUP }}
           dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mongo #es wird nichts vor ort gebaut - du kannst direkt drauf zugreifen
+          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/github-actions-tut:${{ github.sha }} # nimm das eindeutig identifizierbare image
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           name: container-group-0
           location: 'germanywestcentral'
-          ports: '27017:27017'
-  deploy-mongo-express:
-    runs-on: ubuntu-latest
-    needs: deploy-mongo-db
-    steps:
-      - name: Checkout your repo
-        uses: actions/checkout@v3
-      - name: 'Login via Azure CLI'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: 'Deploy MongoDB App'
-        uses: 'azure/aci-deploy@v1'
-        with:
-          resource-group: ${{ secrets.RESOURCE_GROUP }}
-          dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/mongo-express #es wird nichts vor ort gebaut - du kannst direkt drauf zugreifen
-          registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          registry-username: ${{ secrets.REGISTRY_USERNAME }}
-          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: container-group-0
-          location: 'germanywestcentral'
-          ports: '8081:8081'
+          ports: '8080:8080'
+
 

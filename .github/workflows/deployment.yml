@@ -32,7 +32,7 @@ jobs:
         run: mvn -B test
       - name: Build
         id: maven_build
-        run: mvn clean install -P local #local als Profil. Muss noch geaendert werden
+        run: mvn clean install -P staging
       - name: Find target folder
         run: |
           cd target

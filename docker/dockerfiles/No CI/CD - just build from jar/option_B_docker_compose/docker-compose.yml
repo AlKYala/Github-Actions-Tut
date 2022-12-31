@@ -21,9 +21,15 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
 
+  github-actions-tutorial:
+    depends_on:
+      - mongo # wait - DB must exist first
+    container_name: github-actions-tutorial
+    build:
+      dockerfile: dockerfile
+    image: github-actions-tutorial:latest #reference to self
+    ports:
+      - 8080:8080
+
 volumes:
   data: {}
-
-networks:
-  mongoNetwork:
-    name: mongo_network

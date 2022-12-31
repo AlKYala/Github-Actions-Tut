@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+
+  mongo:
+    image: ichprobiereaus.azurecr.io/mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: ichprobiereaus.azurecr.io/mongo-express:latest
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+
+  github-actions-tutorial:
+    depends_on:
+      - mongo # wait - DB must exist first
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: ichprobiereaus.azurecr.io/github-actions-tut:latest
+    ports:
+      - 8080:8080
+
+volumes:
+  data: {}
